@@ -78,14 +78,3 @@ class FaceDataset(Dataset):
 
         return img, torch.tensor(param, dtype=torch.float32), torch.tensor(landmark, dtype=torch.float32)
 
-
-
-transform = Compose([
-    ToTensor(),
-    Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
-])
-
-dataset = FaceDataset(root_dir="/kaggle/input/300w-lp", transform=transform, include_flip=True)
-print(f"Dataset size: {len(dataset)}")
-
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4, pin_memory=True)

@@ -30,6 +30,11 @@ class CombinedLoss(nn.Module):
         
         return param_loss + landmark_loss + self.eye_weight * eye_loss
 
+transform = Compose([
+    ToTensor(),
+    Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+])
+
 # Dataset (đã định nghĩa ở trên)
 dataset = FaceDataset(data_dir="/kaggle/input/facenet/300W_LP", transform=transform)
 dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4)
