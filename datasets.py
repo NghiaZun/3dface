@@ -37,7 +37,7 @@ class FaceDataset(Dataset):
             if file.endswith('.jpg'):
                 img_path = os.path.join(image_subdir, file)
                 param_path = os.path.join(image_subdir, file.replace('.jpg', '.mat'))
-                landmark_path = os.path.join(landmark_subdir, file.replace('.jpg', '.mat'))
+                landmark_path = os.path.join(landmark_subdir, file.replace('.jpg', '_pts.mat'))
 
                 if os.path.exists(param_path) and os.path.exists(landmark_path):
                     self.images.append(img_path)
