@@ -28,6 +28,9 @@ class FaceDataset(Dataset):
             subdir = os.path.join(root_dir, subdataset)
             if os.path.isdir(subdir):
                 self._load_data_from_subdir(subdir)
+
+            print(f"[DEBUG] Loaded {len(self.samples)} samples from {data_dir}")
+
             
             # Kiểm tra và tải tập Flip nếu include_flip=True
             if include_flip:
