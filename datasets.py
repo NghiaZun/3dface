@@ -20,7 +20,7 @@ class FaceDataset(Dataset):
         self.images = []
         self.params = []
         self.landmarks = []
-
+        self.samples = []
         # Danh sách các tập con
         subdatasets = ['AFW', 'HELEN', 'IBUG', 'LFPW']
         
@@ -28,6 +28,7 @@ class FaceDataset(Dataset):
             subdir = os.path.join(root_dir, subdataset)
             if os.path.isdir(subdir):
                 self._load_data_from_subdir(subdir)
+                self.samples.append(os.path.join(data_dir, fname))
 
             print(f"[DEBUG] Loaded {len(self.samples)} samples from {data_dir}")
 
