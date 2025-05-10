@@ -8,6 +8,8 @@ import pickle
 from torchvision.models import mobilenet_v2
 from utils.tddfa_util import _parse_param, similar_transform
 import numpy as np
+from torchvision.transforms import Compose, ToTensor, Normalize
+
 
 
 class CombinedLoss(nn.Module):
