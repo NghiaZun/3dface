@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 from torchvision.transforms import Compose, ToTensor, Normalize
 
 class FaceDataset(Dataset):
-    def __init__(self, root_dir, transform=None, include_flip=True):
+    def __init__(self, data_dir, transform=None, include_flip=True):
         """
         Args:
             root_dir (str): Đường dẫn đến thư mục gốc chứa các tập con (AFW, HELEN, IBUG, LFPW).
