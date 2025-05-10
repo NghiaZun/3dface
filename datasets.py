@@ -22,7 +22,7 @@ class FaceDataset(Dataset):
         self.landmarks = []
 
         # Danh sách các tập con
-        subdatasets = ['300W_LP', 'AFW', 'HELEN', 'IBUG', 'LFPW']
+        subdatasets = ['AFW', 'HELEN', 'IBUG', 'LFPW']
         
         for subdataset in subdatasets:
             subdir = os.path.join(root_dir, subdataset)
