@@ -38,7 +38,7 @@ transform = Compose([
 ])
 
 # Dataset (đã định nghĩa ở trên)
-dataset = FaceDataset(data_dir="/kaggle/input/facenet/300W_LP", transform=transform)
+dataset = FaceDataset(root_dir="/kaggle/input/facenet/300W_LP", landmark_root ="/kaggle/input/facenet/300W_LP/landmarks", transform=transform)
 dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4)
 
 # Load MobileNet V2

@@ -6,56 +6,46 @@ from torch.utils.data import Dataset
 from torchvision.transforms import Compose, ToTensor, Normalize
 
 class FaceDataset(Dataset):
-    def __init__(self, data_dir, transform=None, include_flip=True):
-        """
-        Args:
-            data_dir (str): Đường dẫn đến thư mục gốc chứa các tập con (AFW, HELEN, IBUG, LFPW).
-            transform (callable, optional): Transform áp dụng cho ảnh.
-            include_flip (bool, optional): Bao gồm các tập Flip (mặc định True).
-        """
-        self.data_dir = data_dir
-        self.transform = transform
-        self.include_flip = include_flip
-        self.images = []
-        self.params = []
-        self.landmarks = []
+    def __init__(self, root_dir, landmark_root, transform=None, include_flip=True):
+    self.root_dir = root_dir
+    self.landmark_root = landmark_root
+    self.transform = transform
+    self.include_flip = include_flip
+    self.images = []
+    self.params = []
+    self.landmarks = []
 
-        # Danh sách các tập con cần load
-        subdatasets = ['AFW', 'HELEN', 'IBUG', 'LFPW']
+    subdatasets = ['AFW', 'HELEN', 'IBUG', 'LFPW']
+    for subdataset in subdatasets:
+        subdir = os.path.join(root_dir, subdataset)
+        landmark_subdir = os.path.join(landmark_root, subdataset)
+        if os.path.isdir(subdir) and os.path.isdir(landmark_subdir):
+            self._load_data_from_subdir(subdir, landmark_subdir)
 
-        for subdataset in subdatasets:
-            subdir = os.path.join(data_dir, subdataset)
-            if os.path.isdir(subdir):
-                self._load_data_from_subdir(subdir)
-            else:
-                print(f"[WARNING] Subdir not found: {subdir}")
-            
-            if include_flip:
-                flip_subdir = os.path.join(data_dir, f"{subdataset}_Flip")
-                if os.path.isdir(flip_subdir):
-                    self._load_data_from_subdir(flip_subdir)
-                else:
-                    print(f"[INFO] Flip subdir not found: {flip_subdir}")
-
-        print(f"[INFO] Loaded {len(self.images)} samples from {data_dir}")
+        if include_flip:
+            flip_subdir = os.path.join(root_dir, f"{subdataset}_Flip")
+            flip_landmark_subdir = os.path.join(landmark_root, f"{subdataset}_Flip")
+            if os.path.isdir(flip_subdir) and os.path.isdir(flip_landmark_subdir):
+                self._load_data_from_subdir(flip_subdir, flip_landmark_subdir)
 
         # Nếu không có dữ liệu, raise lỗi rõ ràng
         if len(self.images) == 0:
             raise ValueError(f"No valid samples found in {data_dir}. Please check the folder structure and content.")
 
-    def _load_data_from_subdir(self, subdir):
-        """Hàm phụ để tải dữ liệu từ một thư mục con."""
-        for file in os.listdir(subdir):
-            if file.endswith('.jpg'):
-                img_path = os.path.join(subdir, file)
-                param_path = os.path.join(subdir, file.replace('.jpg', '_param.npy'))
-                landmark_path = os.path.join(subdir, file.replace('.jpg', '_landmarks.npy'))
-                if os.path.exists(param_path) and os.path.exists(landmark_path):
-                    self.images.append(img_path)
-                    self.params.append(param_path)
-                    self.landmarks.append(landmark_path)
-                else:
-                    print(f"[WARNING] Missing param or landmark for {img_path}")
+    def _load_data_from_subdir(self, image_subdir, landmark_subdir):
+    for file in os.listdir(image_subdir):
+        if file.endswith('.jpg'):
+            img_path = os.path.join(image_subdir, file)
+            param_path = os.path.join(image_subdir, file.replace('.jpg', '.mat'))
+            landmark_path = os.path.join(landmark_subdir, file.replace('.jpg', '.mat'))
+
+            if os.path.exists(param_path) and os.path.exists(landmark_path):
+                self.images.append(img_path)
+                self.params.append(param_path)
+                self.landmarks.append(landmark_path)
+            else:
+                print(f"[WARNING] Missing param or landmark for {file}")
+
 
     def __len__(self):
         return len(self.images)
