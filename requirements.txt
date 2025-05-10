@@ -1,0 +1,17 @@
+numpy==1.23.5
+opencv-python
+opencv-contrib-python
+pyyaml
+onnx
+torchvision 
+onnxruntime
+matplotlib
+scipy
+Cython
+cmake
+PyQt5
+facenet-pytorch
+qt-thread-updater
+pygame
+PyOpenGL
+PyOpenGL_accelerate
