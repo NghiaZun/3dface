@@ -7,44 +7,44 @@ from torchvision.transforms import Compose, ToTensor, Normalize
 
 class FaceDataset(Dataset):
     def __init__(self, root_dir, landmark_root, transform=None, include_flip=True):
-    self.root_dir = root_dir
-    self.landmark_root = landmark_root
-    self.transform = transform
-    self.include_flip = include_flip
-    self.images = []
-    self.params = []
-    self.landmarks = []
+        self.root_dir = root_dir
+        self.landmark_root = landmark_root
+        self.transform = transform
+        self.include_flip = include_flip
+        self.images = []
+        self.params = []
+        self.landmarks = []
 
-    subdatasets = ['AFW', 'HELEN', 'IBUG', 'LFPW']
-    for subdataset in subdatasets:
-        subdir = os.path.join(root_dir, subdataset)
-        landmark_subdir = os.path.join(landmark_root, subdataset)
-        if os.path.isdir(subdir) and os.path.isdir(landmark_subdir):
-            self._load_data_from_subdir(subdir, landmark_subdir)
+        subdatasets = ['AFW', 'HELEN', 'IBUG', 'LFPW']
+        for subdataset in subdatasets:
+            subdir = os.path.join(root_dir, subdataset)
+            landmark_subdir = os.path.join(landmark_root, subdataset)
+            if os.path.isdir(subdir) and os.path.isdir(landmark_subdir):
+                self._load_data_from_subdir(subdir, landmark_subdir)
 
-        if include_flip:
-            flip_subdir = os.path.join(root_dir, f"{subdataset}_Flip")
-            flip_landmark_subdir = os.path.join(landmark_root, f"{subdataset}_Flip")
-            if os.path.isdir(flip_subdir) and os.path.isdir(flip_landmark_subdir):
-                self._load_data_from_subdir(flip_subdir, flip_landmark_subdir)
+            if include_flip:
+                flip_subdir = os.path.join(root_dir, f"{subdataset}_Flip")
+                flip_landmark_subdir = os.path.join(landmark_root, f"{subdataset}_Flip")
+                if os.path.isdir(flip_subdir) and os.path.isdir(flip_landmark_subdir):
+                    self._load_data_from_subdir(flip_subdir, flip_landmark_subdir)
 
-        # Nếu không có dữ liệu, raise lỗi rõ ràng
-        if len(self.images) == 0:
-            raise ValueError(f"No valid samples found in {data_dir}. Please check the folder structure and content.")
+            # Nếu không có dữ liệu, raise lỗi rõ ràng
+            if len(self.images) == 0:
+                raise ValueError(f"No valid samples found in {data_dir}. Please check the folder structure and content.")
 
     def _load_data_from_subdir(self, image_subdir, landmark_subdir):
-    for file in os.listdir(image_subdir):
-        if file.endswith('.jpg'):
-            img_path = os.path.join(image_subdir, file)
-            param_path = os.path.join(image_subdir, file.replace('.jpg', '.mat'))
-            landmark_path = os.path.join(landmark_subdir, file.replace('.jpg', '.mat'))
+        for file in os.listdir(image_subdir):
+            if file.endswith('.jpg'):
+                img_path = os.path.join(image_subdir, file)
+                param_path = os.path.join(image_subdir, file.replace('.jpg', '.mat'))
+                landmark_path = os.path.join(landmark_subdir, file.replace('.jpg', '.mat'))
 
-            if os.path.exists(param_path) and os.path.exists(landmark_path):
-                self.images.append(img_path)
-                self.params.append(param_path)
-                self.landmarks.append(landmark_path)
-            else:
-                print(f"[WARNING] Missing param or landmark for {file}")
+                if os.path.exists(param_path) and os.path.exists(landmark_path):
+                    self.images.append(img_path)
+                    self.params.append(param_path)
+                    self.landmarks.append(landmark_path)
+                else:
+                    print(f"[WARNING] Missing param or landmark for {file}")
 
 
     def __len__(self):
