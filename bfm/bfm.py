@@ -33,7 +33,7 @@ class BFMModel(object):
         # tri specifies which vertices make up each triangle surface facet of the 3D mesh. It allows reconstructing the mesh topology from just the vertex positions.
 
         self.tri = _to_ctype(self.tri.T).astype(np.int32)
-        self.keypoints = bfm.get('keypoints').astype(np.long)  # fix bug
+        self.keypoints = bfm.get('keypoints').astype(np.int64)  # fix bug
         # Landmark vertex indices (keypoints) are extracted
         w = np.concatenate((self.w_shp, self.w_exp), axis=1)
         self.w_norm = np.linalg.norm(w, axis=0)
