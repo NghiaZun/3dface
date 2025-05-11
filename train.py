@@ -7,6 +7,7 @@ from datasets import FaceDataset
 import pickle
 import yaml
 from torchvision.models import MobileNet_V2_Weights
+from torchvision.models import mobilenet_v2
 from utils.tddfa_util import _parse_param, similar_transform
 import numpy as np
 from torchvision.transforms import Compose, ToTensor, Normalize
