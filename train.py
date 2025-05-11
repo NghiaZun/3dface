@@ -6,7 +6,7 @@ from models import mobilenetv2
 from datasets import FaceDataset
 import pickle
 import yaml
-from torchvision.models import mobilenet_v2
+from torchvision.models import MobileNet_V2_Weights
 from utils.tddfa_util import _parse_param, similar_transform
 import numpy as np
 from torchvision.transforms import Compose, ToTensor, Normalize
@@ -48,7 +48,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
 
 # Load pre-trained weights (ImageNet)
-pretrained_model = mobilenet_v2(pretrained=True)
+mobilenet_v2(weights=MobileNet_V2_Weights.DEFAULT)
 pretrained_dict = pretrained_model.state_dict()
 model_dict = model.state_dict()
 # Lọc các trọng số không khớp

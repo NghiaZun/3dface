@@ -59,7 +59,7 @@ class FaceDataset(Dataset):
         img = cv2.resize(img, (120, 120))
 
         # Load 3DMM parameters and landmarks
-        param = np.load(self.params[idx])  # (62,)
+        param = np.load(self.params[idx], allow_pickle = True)  # (62,)
         landmark = np.load(self.landmarks[idx])  # (68, 2)
 
         # Apply transform
