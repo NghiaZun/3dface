@@ -4,6 +4,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 from torchvision.transforms import Compose, ToTensor, Normalize
+import scipy.io as loadmat
 
 class FaceDataset(Dataset):
     def __init__(self, root_dir, landmark_root, transform=None, include_flip=True):
@@ -59,8 +60,8 @@ class FaceDataset(Dataset):
         img = cv2.resize(img, (120, 120))
 
         # Load 3DMM parameters and landmarks
-        param = np.load(self.params[idx], allow_pickle = True)  # (62,)
-        landmark = np.load(self.landmarks[idx])  # (68, 2)
+        param = loadmat(self.params[idx], allow_pickle = True)  # (62,)
+        landmark = loadmat(self.landmarks[idx])  # (68, 2)
 
         # Apply transform
         if self.transform:
