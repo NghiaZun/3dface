@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 from models import mobilenetv2
 from datasets import FaceDataset
 import pickle
+import yaml
 from torchvision.models import mobilenet_v2
 from utils.tddfa_util import _parse_param, similar_transform
 import numpy as np
