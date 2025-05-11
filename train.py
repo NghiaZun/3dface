@@ -14,6 +14,7 @@ from torchvision.transforms import Compose, ToTensor, Normalize
 
 
 
+
 class CombinedLoss(nn.Module):
     def __init__(self, eye_weight=5.0):
         super(CombinedLoss, self).__init__()
@@ -49,7 +50,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
 
 # Load pre-trained weights (ImageNet)
-mobilenet_v2(weights=MobileNet_V2_Weights.DEFAULT)
+pretrained_model = mobilenet_v2(weights=MobileNet_V2_Weights.DEFAULT)
 pretrained_dict = pretrained_model.state_dict()
 model_dict = model.state_dict()
 # Lọc các trọng số không khớp
